@@ -1,1 +1,1 @@
-if (!window.kindle || !top.kindle) window.location = "/assets/desktop.html";
+if (!window.kindle || !top.kindle) window.location = "/Detour/assets/desktop.html";
