@@ -14,7 +14,7 @@ Created by [penguins184](https://ko-fi.com/penguins186)
 1. Turn on aeroplane mode.
 2. Reboot.
 3. Copy & paste the detour installer (.active_content_sandbox) into kindle root.
-4. Open store, enable wifi when prompted.5
+4. Open store, enable wifi when prompted.
 5. Detour changes the internal URL the store fetches.
 6. Delete .active_content_sandbox, reboot once complete.
 4. Run the store again, profit!
