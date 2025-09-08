@@ -46,9 +46,16 @@
         kindle.appmgr.onforward = function(a, b) { return true; }
     </script>
 
+    <script src="assets/polyfill.min.js"></script>
+    <script src="sdk.js"></script>
     <script src="script.js"></script>
 </head>
 <body>
-    <h1>Detour</h1>
+    <div class="outer">
+        <div class="inner">
+            <h1>Detour</h1>
+            <p>Loading Apps...</p>
+        </div>
+    </div>
 </body>
 </html>
