@@ -1,0 +1,1 @@
+if (!window.kindle || !top.kindle) window.location = "/assets/desktop.html";
