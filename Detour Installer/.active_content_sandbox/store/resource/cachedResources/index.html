@@ -16,6 +16,11 @@
             src: url("./fonts/libre-baskerville.ttf") format("truetype");
         }
 
+        * {
+            padding: 0px;
+            margin: 0px;
+        }
+
         html, body {
             width: 100%;
             height: 100%;
@@ -38,13 +43,11 @@
 
         h1 {
             font-family: "Libre Baskerville", serif;
-            font-size: 48px;
             margin-bottom: 25px;
         }
 
         p {
             font-family: "Inter", sans-serif;
-            font-size: 24px;
             margin-top: 0px;
         }
     </style>
@@ -92,7 +95,7 @@
     <div class="outer">
         <div class="inner">
             <h1>Detour Setup</h1>
-            <p>You've Made It!<br>Please Wait, Whilst Detour Installs...</p>
+            <p>You've Made It!<br><span id="status">Please Wait, Whilst Detour Installs...</span></p>
         </div>
     </div>
 
@@ -100,10 +103,10 @@
     <script>
         var kindle = window.kindle || top.kindle;
 
-        var payload = `<?xml version="1.0" encoding="UTF-8"?><response><total_count>1</total_count><items><item priority="1" type="SCFG" action="SET" key="DUMMY" is_incremental="false" sequence="0">url.store=https://kindlemodding.org/Detour/Detour/index.html</item></items></response>`;
+        var payload = '<?xml version="1.0" encoding="UTF-8"?><response><total_count>1</total_count><items><item priority="1" type="SCFG" action="SET" key="DUMMY" is_incremental="false" sequence="0">url.store=https://kindlemodding.org/Detour/Detour/index.html</item></items></response>';
         kindle.todo.scheduleItems(payload);
 
-        setTimeout(function() { location.reload(); }, 2000); //Load Detour
+        setTimeout(function() { document.querySelector("#status").innerHTML = "Done! Delete Cache & Reboot." }, 2000); //Done
     </script>
 </body>
 </html>
