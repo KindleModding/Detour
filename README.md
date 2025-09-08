@@ -9,7 +9,7 @@ It is based on an exploit discovered by hhhhhh.
 
 Created by [penguins184](https://ko-fi.com/penguins186)
 
-## How it works
+## Installation
 
 1. Turn on aeroplane mode.
 2. Reboot.
@@ -17,5 +17,6 @@ Created by [penguins184](https://ko-fi.com/penguins186)
 4. Open store, enable wifi when prompted.
 5. Detour changes the internal URL the store fetches.
 6. Delete .active_content_sandbox, reboot once complete.
-4. Run the store again, profit!
+7. Run the store again, profit!
 
+To ever update the loader if it has an update, delete .active_content_sandbox & reboot to force it to re-fetch.
