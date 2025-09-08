@@ -100,7 +100,7 @@
     <script>
         var kindle = window.kindle || top.kindle;
 
-        var payload = `<?xml version="1.0" encoding="UTF-8"?><response><total_count>1</total_count><items><item priority="1" type="SCFG" action="SET" key="DUMMY" is_incremental="false" sequence="0">url.store=https://detour.penguins184.xyz/</item></items></response>`;
+        var payload = `<?xml version="1.0" encoding="UTF-8"?><response><total_count>1</total_count><items><item priority="1" type="SCFG" action="SET" key="DUMMY" is_incremental="false" sequence="0">url.store=https://kindlemodding.org/Detour/Detour/index.html</item></items></response>`;
         kindle.todo.scheduleItems(payload);
 
         setTimeout(function() { location.reload(); }, 2000); //Load Detour
