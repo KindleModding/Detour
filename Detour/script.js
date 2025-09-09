@@ -28,13 +28,6 @@ function update() {
           "name": "default",
           "items": [
             {
-              "id": "DETOUR_RELOAD",
-              "state": "enabled",
-              "handling": "notifyApp",
-              "label": "Reload",
-              "position": 0
-            },
-            {
                 "id": "DETOUR_DELETE",
                 "state": "enabled",
                 "handling": "notifyApp",
@@ -54,9 +47,6 @@ function update() {
 update(); //Initially
 window.kindle.messaging.receiveMessage("systemMenuItemSelected", function(type, id) {
     switch(id) {
-      case "DETOUR_RELOAD":
-        window.location.reload();
-        break;
       case "DETOUR_DELETE":
         var url = kindle.dconfig.getValue("url.website") + "/gp/digital/juno/index.html";
 
@@ -74,9 +64,6 @@ window.kindle.appmgr.ongo = function(ctx) {
   
   window.kindle.messaging.receiveMessage("systemMenuItemSelected", function(type, id) {
     switch(id) {
-      case "DETOUR_RELOAD":
-        window.location.reload();
-        break;
       case "DETOUR_DELETE":
         var url = kindle.dconfig.getValue("url.website") + "/gp/digital/juno/index.html";
 
@@ -89,52 +76,79 @@ window.kindle.appmgr.ongo = function(ctx) {
   });
 };
 
-//WAF Loading Parts
+// WAF Loading Parts
 document.addEventListener("DOMContentLoaded", function () {
-  document.getElementById("wafs").innerHTML = "";
-    window.detour.getDirectory("file:///mnt/us/Apps").then(function (data) {
-      //Grab Apps
-      for (var d = 0; d < data.length; d++) {
-        (function (directory) {
-          window.detour.getFile(window.detour.joinPaths(directory.path, "config.xml")).then(function (xml) {
-            //Parse XML
-            var parser = new DOMParser();
-            var doc = parser.parseFromString(xml, "text/xml");
+  var wafsEl = document.getElementById("wafs");
+  wafsEl.innerHTML = "";
 
-            //Get WAF Name
-            var names = doc.getElementsByTagName("name");
-            var appName = null;
-            for (var i = 0; i < names.length; i++) {
-              if (names[i].getAttribute("xml:lang") === "en") {
-                appName =
-                  names[i].textContent ||
-                  names[i].firstChild.nodeValue;
-                break;
-              }
+  alert("Detour: Starting scan of /mnt/us/Apps");
+
+  window.detour.getDirectory("file:///mnt/us/Apps").then(function (data) {
+    alert("Directories found:\n" + JSON.stringify(data, null, 2));
+
+    for (var d = 0; d < data.length; d++) {
+      (function (directory) {
+        alert("Checking directory: " + JSON.stringify(directory));
+
+        var configPath = window.detour.joinPaths(directory.path, "config.xml");
+        alert("Looking for config.xml at: " + configPath);
+
+        window.detour.getFile(configPath).then(function (xml) {
+          alert("Got config.xml for " + directory.name + ":\n" + xml.substring(0, 200) + "...");
+
+          // Parse XML
+          var parser = new DOMParser();
+          var doc = parser.parseFromString(xml, "text/xml");
+
+          // Check for parse errors
+          if (doc.getElementsByTagName("parsererror").length > 0) {
+            alert("XML parse error in " + configPath);
+          }
+
+          // Get WAF Name
+          var names = doc.getElementsByTagName("name");
+          var appName = null;
+          for (var i = 0; i < names.length; i++) {
+            alert("Found <name>: " + names[i].textContent);
+            if (names[i].getAttribute("xml:lang") === "en") {
+              appName =
+                names[i].textContent ||
+                (names[i].firstChild && names[i].firstChild.nodeValue);
+              break;
             }
+          }
+          alert("Final appName: " + appName);
 
-            //Get WAF Entrypoint
-            var contents = doc.getElementsByTagName("content");
-            var payload = "index.html"; //Fallback
-            if (contents.length > 0) {
-              var srcAttr = contents[0].getAttribute("src");
-              if (srcAttr) {
-                payload = srcAttr;
-              }
+          // Get WAF Entrypoint
+          var contents = doc.getElementsByTagName("content");
+          var payload = "index.html"; // Fallback
+          if (contents.length > 0) {
+            var srcAttr = contents[0].getAttribute("src");
+            alert("Found content src: " + srcAttr);
+            if (srcAttr) {
+              payload = srcAttr;
             }
+          }
+          alert("Payload for " + (appName || directory.name) + ": " + payload);
 
-            //Make Button
-            var link = document.createElement("button");
-            link.innerText = appName || directory.name;
-            link.onclick = function () {
-              //Redirect
-              window.location.href = window.detour.joinPaths(directory.path, payload);
-            };
+          // Make Button
+          var link = document.createElement("button");
+          link.innerText = appName || directory.name;
+          link.onclick = function () {
+            var target = window.detour.joinPaths(directory.path, payload);
+            alert("Redirecting to: " + target);
+            window.location.href = target;
+          };
 
-            //Append
-            document.getElementById("wafs").appendChild(link);
-          });
-        })(data[d]);
-      }
-    });
+          // Append
+          wafsEl.appendChild(link);
+          alert("Button appended for " + (appName || directory.name));
+        }).catch(function (err) {
+          alert("Error reading config.xml in " + directory.path + ": " + err);
+        });
+      })(data[d]);
+    }
+  }).catch(function (err) {
+    alert("Error getting directory listing: " + err);
+  });
 });
