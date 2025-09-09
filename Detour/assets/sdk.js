@@ -1,83 +1,63 @@
-function getFile(url, timeout, fixKindleFormatting) {
-  if (typeof (fixKindleFormatting) === 'undefined') {
-    fixKindleFormatting = true
-  }
+var kindle = window.kindle || top.kindle;
 
-  return new Promise(function (callback) {
-    // Create iframe
-    const iframe = document.createElement("iframe");
-    iframe.src = url;
+function getFile(url) {
+    return new Promise(function (resolve) {
+        var iframe = document.createElement("iframe");
+        iframe.src = url;
+        document.body.appendChild(iframe);
 
-    // Add iframe to body
-    document.body.appendChild(iframe);
+        iframe.addEventListener("load", function (e) {
+            try {
+                var src = e.target.contentDocument.documentElement.innerHTML;
+                e.target.remove();
 
-    // Timeout To Remove iframe
-    if (timeout !== -1) {
-      setTimeout(function () {
-        iframe.remove();
-      }, timeout || 2000);
-    }
+                src = src
+                    .replace('<head></head><body><pre style="word-wrap: break-word; white-space: pre-wrap;">', "")
+                    .replace("</pre></body>", "")
+                    .replace("<head></head><body></body>", "");
 
-    // Add listener to iframe
-    iframe.addEventListener("load", function (event) {
-      // Get iframe's documentElement and clone it and get the innerHTML
-      iframeSource = event.target.contentDocument.documentElement.innerHTML;
-
-      // Remove iframe from DOM
-      event.target.remove();
-
-      if (fixKindleFormatting) {
-        // (replace applies to a lot of file types, not just directory listings)
-        iframeSource = iframeSource.replace('<head></head><body><pre style="word-wrap: break-word; white-space: pre-wrap;">', '').replace('</pre></body>', '');
-      }
-
-      // Resolve promise
-      callback(iframeSource);
-    });
-  });
-}
-
-
-function getDirectory(location) {
-  return new Promise(function (callback) {
-    // Get source of directory listing
-    getFile(location).then(function (data) {
-      // Create list
-      var files = [];
-
-      // Define regex for extracting different things
-      const tagReg = new RegExp('<a(\n|.)*?(?=<\/a>)', "gim");
-      const hrefReg = new RegExp('href="(\n|.)*?(?=")', 'gim');
-      const tagRemovalReg = new RegExp('<a(\n|.)*?>', 'gim');
-
-      // Get anchor tags (without closing tag)
-      const anchorTags = Array.from(data.matchAll(tagReg));
-
-      for (var i = 0; i < anchorTags.length; i++) {
-        // Get href source (URL)
-        const source = Array.from(anchorTags[i][0].matchAll(hrefReg));
-
-        files.push({
-          "name": anchorTags[i][0].replace(tagRemovalReg, ''), // Remove anchor tags from match to get only their innerText
-          "path": source[0][0].substring(6) // Remove the href=" part of the href source
+                resolve(src);
+            } catch(err) {
+                console.error("Failed To Read <iframe> Content:", err);
+                resolve("");
+            }
         });
-      }
 
-      callback(files); // Resolve promise
+        setTimeout(function () {
+            if (iframe.parentNode) iframe.remove();
+        }, 2000);
     });
-  });
 }
 
-function joinPaths(path1, path2) {
-  if (path1.slice(-1) == '/') {
-    path1 = path1.slice(0, -1);
-  }
+function getDirectory(loc) {
+    return new Promise(function (resolve) {
+        getFile(loc).then(function (data) {
+            var files = [];
+            var tagReg = /<a(\n|.)*?(?=<\/a>)/gim;
+            var hrefReg = /href="(\n|.)*?(?=")/gim;
+            var tagRemovalReg = /<a(\n|.)*?>/gim;
 
-  if (path2.slice(0, 2) == './') {
-    path2 = path2.slice(1);
-  } else if (path2[0] != '/') {
-    path2 = '/' + path2;
-  }
+            var anchorTags = Array.from(data.matchAll(tagReg));
 
-  return path1 + path2;
+            for (var i = 0; i < anchorTags.length; i++) {
+                var source = Array.from(anchorTags[i][0].matchAll(hrefReg));
+                files.push({
+                    name: anchorTags[i][0].replace(tagRemovalReg, ""),
+                    path: source[0][0].substring(6)
+                });
+            }
+
+            resolve(files);
+        }).catch(function (err) {
+            console.error("Error Reading Directory:", err);
+            resolve([]);
+        });
+    });
+}
+
+function joinPaths(one, two) {
+    if (one.slice(-1) === "/") one = one.slice(0, -1);
+    if (two.slice(0, 2) === "./") two = two.slice(1);
+    else if (two[0] !== "/") two = "/" + two;
+    return one + two;
 }
