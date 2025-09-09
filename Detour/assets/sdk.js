@@ -1,5 +1,5 @@
 /*
-    Illusion (Detour) SDK
+    Simple Detour SDK
 */
 
 var kindle = window.kindle || top.kindle;

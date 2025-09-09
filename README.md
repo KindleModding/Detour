@@ -9,7 +9,9 @@ It is based on an exploit discovered by hhhhhh.
 
 Created by [penguins184](https://ko-fi.com/penguins186)
 
-## Installation
+## Installation 
+
+### All Kindles, <5.18.1
 
 1. Turn on aeroplane mode.
 2. Reboot.
@@ -19,4 +21,16 @@ Created by [penguins184](https://ko-fi.com/penguins186)
 6. Delete .active_content_sandbox, reboot once complete.
 7. Run the store again, profit!
 
+### Non-MTP 5.18.1+
+
+- Follow the above steps but make sure to use a `Detour-Fat.zip` which contains more files to slow deletion.
+
+### MTP 5.18.1+
+
+- Use KAT.
+
 To ever update the loader if it has an update, delete .active_content_sandbox & reboot to force it to re-fetch.
+
+## Removal
+
+- Open Detour, press the three dots, click "Uninstall".
