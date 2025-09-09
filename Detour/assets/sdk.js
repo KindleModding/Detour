@@ -54,7 +54,7 @@ window.detour = {
             });
         });
     },
-    joinPath(one, two) {
+    joinPaths(one, two) {
         if (one.slice(-1) === "/") {
             one = one.slice(0, -1);
         };
