@@ -34,15 +34,13 @@ window.detour = {
             window.detour.getFile(loc).then(function (data) {
                 var files = [];
                 var tagReg = new RegExp('<a(\n|.)*?(?=<\/a>)', "gim");
-                var hrefReg = new RegExp('href="(\n|.)*?(?=")', "gim");
-                var tagRemovalReg = new RegExp('<a(\n|.)*?>', "gim");
+                var hrefReg = new RegExp('href="(\n|.)*?(?=")', 'gim');
+                var tagRemovalReg = new RegExp('<a(\n|.)*?>', 'gim');
 
-                var anchorTags = Array.prototype.slice.call(data.matchAll(tagReg));
+                var anchorTags = Array.from(data.matchAll(tagReg));
 
                 for (var i = 0; i < anchorTags.length; i++) {
-                    var source = Array.prototype.slice.call(
-                        anchorTags[i][0].matchAll(hrefReg)
-                    );
+                    var source = Array.from(anchorTags[i][0].matchAll(hrefReg));
 
                     files.push({
                         name: anchorTags[i][0].replace(tagRemovalReg, ""),
