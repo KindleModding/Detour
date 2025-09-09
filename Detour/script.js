@@ -51,6 +51,8 @@ function update() {
   window.kindle.messaging.sendMessage("com.lab126.chromebar", "configureChrome", chromebar);
 };
 
+update(); //Initially
+
 //Update Each Page Load
 window.kindle.appmgr.ongo = function(ctx) {
   update();
@@ -65,7 +67,7 @@ window.kindle.appmgr.ongo = function(ctx) {
         var payload = '<?xml version="1.0" encoding="UTF-8"?><response><total_count>1</total_count><items><item priority="1" type="SCFG" action="SET" key="DUMMY" is_incremental="false" sequence="0">url.store=' + url + '</item></items></response>';
         kindle.todo.scheduleItems(payload);
 
-        document.location = "/assets/uninstall.html";
+        window.location = "/Detour/Detour/assets/uninstall.html";
         break;
     };
   });

@@ -21,7 +21,7 @@ Created by [penguins184](https://ko-fi.com/penguins186)
 6. Delete .active_content_sandbox, reboot once complete.
 7. Run the store again, profit!
 
-### Non-MTP 5.18.1+
+### Mass Storage (Non-MTP) 5.18.1+
 
 - Follow the above steps but make sure to use a `Detour-Fat.zip` which contains more files to slow deletion.
 
