@@ -31,7 +31,7 @@ window.detour = {
     },
     getDirectory(loc) {
         return new Promise(function (callback) {
-            _file(loc).then(function (data) {
+            window.detour.getFile(loc).then(function (data) {
                 var files = [];
                 var tagReg = new RegExp('<a(\n|.)*?(?=<\/a>)', "gim");
                 var hrefReg = new RegExp('href="(\n|.)*?(?=")', "gim");
