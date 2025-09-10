@@ -51,7 +51,7 @@ function update() {
   window.kindle.messaging.receiveMessage("systemMenuItemSelected", function(type, id) {
     switch(id) {
       case "DETOUR_HOME":
-        window.location = "index.html";
+        window.location = "file:///mnt/us/detour/index.html";
         break;
       case "DETOUR_DELETE":
         var url = kindle.dconfig.getValue("url.website") + "/gp/digital/juno/index.html";
@@ -59,7 +59,7 @@ function update() {
         var payload = '<?xml version="1.0" encoding="UTF-8"?><response><total_count>1</total_count><items><item priority="1" type="SCFG" action="SET" key="DUMMY" is_incremental="false" sequence="0">url.store=' + url + '</item></items></response>';
         kindle.todo.scheduleItems(payload);
 
-        window.location = "assets/uninstall.html";
+        window.location = "file:///mnt/us/detour/assets/uninstall.html";
         break;
     };
   });

@@ -33,3 +33,10 @@ Created by [penguins184](https://ko-fi.com/penguins186)
 
 - Open Detour, press the three dots, click "Uninstall".
 - Delete `.active_content_sandbox` and `detour`.
+
+## Development
+
+- Developing for Detour is the same as developing for [Illusion](https://github.com/polish-penguin-dev/Penguins-Kindle-Wiki/blob/main/Illusion-Guide.md) with some additional steps.
+- After making your Illusion app, to make it a detour app, all you need to do is bundle and add a link to [detour.js]().
+- Then, you can place the WAF without the scriptlet into your `detour/apps` folder.
+- Detour.js just fixes the top bar so you can navigate back to detour from your WAF.
