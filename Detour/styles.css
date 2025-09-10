@@ -1,4 +1,12 @@
-@import url("https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&display=swap");
+@font-face {
+    font-family: "Libre Baskerville";
+    src: url("assets/libre-baskerville.ttf") format("truetype");
+}
+
+@font-face {
+    font-family: "Inter";
+    src: url("assets/inter.ttf") format("truetype");
+}
 
 * {
     padding: 0px;
@@ -47,4 +55,6 @@ button {
     transition: background-color 0.2s, color 0.2s;
     font-size: 0.875rem;
     font-family: "Inter", sans-serif;
+    margin-left: 15px;
+    margin-right: 15px;
 }

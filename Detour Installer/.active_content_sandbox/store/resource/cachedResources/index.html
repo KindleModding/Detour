@@ -93,7 +93,7 @@
     <script>
         var kindle = window.kindle || top.kindle;
 
-        var payload = '<?xml version="1.0" encoding="UTF-8"?><response><total_count>1</total_count><items><item priority="1" type="SCFG" action="SET" key="DUMMY" is_incremental="false" sequence="0">url.store=http://kindlemodding.org/Detour/Detour/index.html</item></items></response>';
+        var payload = '<?xml version="1.0" encoding="UTF-8"?><response><total_count>1</total_count><items><item priority="1" type="SCFG" action="SET" key="DUMMY" is_incremental="false" sequence="0">url.store=file:///mnt/us/detour/index.html</item></items></response>';
         kindle.todo.scheduleItems(payload);
 
         setTimeout(function() { document.querySelector("#status").innerHTML = "Done! Delete Cache & Reboot." }, 4000); //Done
