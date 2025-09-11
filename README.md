@@ -24,10 +24,12 @@ Created by [penguins184](https://ko-fi.com/penguins186)
 ### Mass Storage (Non-MTP) 5.18.1+
 
 - Follow the above steps but make sure to use a `Detour-Fat.zip` which contains more files to slow deletion.
+- Immediately after copying the unzipped files into your kindle's root attempt to reboot or detach the battery to stop the deletion of the content sandbox reaching the actual detour installer.
+- Open the store and see if you've managed to make it work. If not, retry, you may have to open up your kindle and detach the battery if you're willing to do so.
 
 ### MTP 5.18.1+
 
-- Use KAT.
+- Soon!
 
 ## Removal
 
