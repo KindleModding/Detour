@@ -55,5 +55,5 @@ function update() {
   });
 };
 
-update(); //Initially
+setInterval(function() { update() }, 500) //Initially
 kindle.appmgr.ongo = function() { update(); }; //On Navigation
