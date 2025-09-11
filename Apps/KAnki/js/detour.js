@@ -3,6 +3,8 @@
     Detour WAF Helper Script
 */
 
+var kindle = window.kindle || top.kindle;
+
 //Chromebar Shenanigans
 function update() {
   var chromebar = {
@@ -53,4 +55,5 @@ function update() {
   });
 };
 
-update();
+update(); //Initially
+kindle.appmgr.ongo = function() { update(); }; //On Navigation
